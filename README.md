@@ -13,6 +13,8 @@ More complex ideas:
 * setup of higher order reducer with sub-reducers
 * creation of navigation stacks with subfeatures (perhaps using decoupled navigation)
 
+The tool isn't intended to be able to 'edit' any existing project; it's just a convenience for a quick starting points.
+
 ## Implementation
 
 It's highly desirable that the template files that generate the stubs are tweakable by the user.
