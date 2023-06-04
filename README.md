@@ -8,6 +8,11 @@ With this in mind, a simple scaffolding tool for quickly generating stubs of fea
 
 At a minimum, this helper would allow you to quickly create the stubs of a feature or features, with the usual boilerplate/conformance in the View and Reducer stubs.
 
+More complex ideas:
+
+* setup of higher order reducer with sub-reducers
+* creation of navigation stacks with subfeatures (perhaps using decoupled navigation)
+
 ## Implementation
 
 It's highly desirable that the template files that generate the stubs are tweakable by the user.
