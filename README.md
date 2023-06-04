@@ -18,9 +18,7 @@ The tool isn't intended to be able to 'edit' any existing project; it's just a c
 
 ## Implementation
 
-It's highly desirable that the template files that generate the stubs are tweakable by the user.
-
-The scaffold could be a standalone tool, or perhaps just template files for some existing templating tool. Convenience is the main aim.
+The scaffold could be a standalone tool, or perhaps just template files for some existing templating tool. Convenience is the main aim; tool has to be easy to use on a fundamental  level.
 
 ## A pause for thought
 
