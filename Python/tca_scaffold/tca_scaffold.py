@@ -15,8 +15,8 @@ def process_template(script_dir):
     # Prepare the substitutions
     feature_name = "Thingo"
     substitutions = {
-        'viewClass': f"{feature_name}View",
-        'featureClass': f"{feature_name}ViewFeature"
+        'viewName': f"{feature_name}View",
+        'featureName': f"{feature_name}ViewFeature"
     }
 
     # Load the template

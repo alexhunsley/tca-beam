@@ -1,11 +1,11 @@
 // MARK: - View
 
-public struct {{ viewClass }}: View {
+public struct {{ viewName }}: View {
 
-    private let store: StoreOf<AutoSuggestViewFeature>
+    private let store: StoreOf<{{ featureName }}>
 
     public init(
-        store: StoreOf<AutoSuggestViewFeature>
+        store: StoreOf<{{ featureName }}>
     ) {
         self.store = store
     }
@@ -19,12 +19,12 @@ public struct {{ viewClass }}: View {
 
 // MARK: - Preview
 
-public struct {{ viewClass }}_Preview: PreviewProvider {
+public struct {{ viewName }}_Preview: PreviewProvider {
 
     public static var previews: some View {
-        {{ viewClass }}(store: StoreOf<{{ featureClass }}>(
+        {{ viewName }}(store: StoreOf<{{ featureName }}>(
                 initialState: .init(),
-                reducer: {{ featureClass }}()
+                reducer: {{ featureNAme }}()
             ))
         }
     }

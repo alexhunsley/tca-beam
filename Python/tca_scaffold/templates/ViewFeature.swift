@@ -1,6 +1,6 @@
 // MARK: - Reducer
 
-public struct {{ featureClass }}: ReducerProtocol {
+public struct {{ featureName }}: ReducerProtocol {
     public struct State: Equatable {
 
     }
