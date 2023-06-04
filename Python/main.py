@@ -1,16 +1,47 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from jinja2 import Environment, FileSystemLoader
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def process_template():
+
+    # Define the template directory
+    file_loader = FileSystemLoader('templates')
+
+    # Create the environment
+    env = Environment(loader=file_loader)
+
+
+    # Prepare the substitutions
+    feature_name = "Thingo"
+    substitutions = {
+        'viewClass': f"{feature_name}View",
+        'featureClass': f"{feature_name}ViewFeature"
+    }
+
+    # Load the template
+    view_template = env.get_template('View.swift')
+    view_feature_template = env.get_template('ViewFeature.swift')
+
+    one_file_template = env.get_template('OneFile.swift')
+
+    view_content = view_template.render(substitutions)
+    view_feature_content = view_feature_template.render(substitutions)
+
+    main_file_substitutions = {
+        'reducerContent': view_feature_content,
+        'viewContent': view_content
+    }
+
+    # Render the template with the substitutions
+    output = one_file_template.render(main_file_substitutions)
+
+    print(output)
+
+    # output = view_feature_template.render(substitutions)
+    # print(output)
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    process_template()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
