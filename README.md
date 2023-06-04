@@ -16,4 +16,5 @@ The scaffold could be a standalone tool, or perhaps just template files for some
 
 ## A pause for thought
 
-It's worth bearing in mind that the tool should be kept up to date with changes to TCA and not spread around deprecated or bad patterns of use.
+It's worth bearing in mind that the tool should be kept up to date with changes to TCA and not enourage deprecated or undesirable patterns.
+
