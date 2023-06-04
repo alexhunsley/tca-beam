@@ -10,8 +10,6 @@ public struct {{ featureName }}: ReducerProtocol {
 
     }
 
-    public init() {}
-
     public var body: some ReducerProtocol<State, Action> {
         BindingReducer()
         Reduce<State, Action> { state, action in

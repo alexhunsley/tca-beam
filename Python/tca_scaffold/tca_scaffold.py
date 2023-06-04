@@ -36,6 +36,7 @@ def process_template(script_dir):
     # Render the template with the substitutions
     output = one_file_template.render(main_file_substitutions)
 
+    # When saving to disk, make the single file one end with View, not ViewFeature!
     print(output)
 
     # output = view_feature_template.render(substitutions)

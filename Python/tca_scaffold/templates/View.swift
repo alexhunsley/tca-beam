@@ -12,7 +12,7 @@ public struct {{ viewName }}: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            // content here
+            Text("{{ viewName }}")
         }
     }
 }
@@ -24,8 +24,8 @@ public struct {{ viewName }}_Preview: PreviewProvider {
     public static var previews: some View {
         {{ viewName }}(store: StoreOf<{{ featureName }}>(
                 initialState: .init(),
-                reducer: {{ featureNAme }}()
-            ))
-        }
+                reducer: {{ featureName }}()
+            )
+        )
     }
 }
