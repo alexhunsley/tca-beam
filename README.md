@@ -13,7 +13,7 @@ More complex ideas:
 * setup of higher order reducer with sub-reducers
 * creation of navigation stacks with subfeatures (perhaps using decoupled navigation)
 
-The tool isn't intended to be able to 'edit' any existing project; it's just a convenience for a quick starting points.
+The tool isn't intended to be able to 'edit' any existing project; it's just a convenience for a quick starting points. Obviously, with the composability and modularity of TCA, the tool could be used when creating new features to plug into existing project.
 
 ## Implementation
 
