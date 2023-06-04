@@ -1,7 +1,9 @@
+import os
 from jinja2 import Environment, FileSystemLoader
 
+def process_template(script_dir):
 
-def process_template():
+    os.chdir(script_dir)
 
     # Define the template directory
     file_loader = FileSystemLoader('templates')
@@ -40,8 +42,12 @@ def process_template():
     # print(output)
 
 
+def start():
+    script_dir = os.path.abspath(os.path.dirname(__file__))
+    process_template(script_dir)
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    process_template()
+    start()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
