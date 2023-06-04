@@ -60,7 +60,7 @@ def process_template(script_dir, two_files, force_overwrite, feature_name):
     # print(output)
 
 @click.command(no_args_is_help=True)
-@click.option('--two-files', is_flag=True, help='Put view and reducer into separate files')
+@click.option('--two-files', is_flag=True, help='Put view and reducer into separate files (UNIMPLEMENTED)')
 @click.option('--force-overwrite', is_flag=True, help='Force overwriting any existing files')
 @click.argument('feature_names', nargs=-1)
 def start(two_files, force_overwrite, feature_names):
