@@ -14,7 +14,7 @@ More complex ideas:
 * creation of navigation stacks with subfeatures (perhaps using decoupled navigation)
 * stub out unit test using e.g. `TestStore`
 
-The tool isn't intended to be able to 'edit' any existing project; it's just a convenience for a quick starting point. Obviously, with the composability and modularity of TCA, the tool could be used when creating new features to plug into an existing project.
+The tool isn't intended to be able to 'edit' any existing project; it's just a convenience for a quick start on new TCA features. Obviously, with the composability and modularity of TCA, the tool could be used when creating new features to plug into an existing project.
 
 ## Implementation
 
