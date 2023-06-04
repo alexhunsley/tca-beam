@@ -1,5 +1,9 @@
 # Scaffold for The Composable Architecure 
 
+## Implementations in progress
+
+* [Python3](Python)
+
 ## Motivation
 
 [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) is opinionated; there's a certain way to do things (with some wriggle room obviously).
