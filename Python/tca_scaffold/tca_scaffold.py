@@ -74,15 +74,8 @@ def render_templates(templateRenders, substitutions, feature_name, two_files, dr
                 f.write(stub_contents)
 
 
-def process_template(script_dir, two_files, sub_dirs, force_overwrite, dry_run, feature_name):
+def process_template(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name):
     dbg(f"start process_template, sub_dirs = {sub_dirs}")
-    templates_path = make_abs_path('templates')
-
-    # Define the template directory
-    file_loader = FileSystemLoader(templates_path)
-
-    # Create the environment
-    env = Environment(loader=file_loader)
 
     # Prepare the substitutions
     substitutions = {
@@ -116,19 +109,37 @@ def process_template(script_dir, two_files, sub_dirs, force_overwrite, dry_run, 
         'viewContent': view_content
     }
 
-    # TODO remove sub_dirs from here, not needed!
     render_templates(template_renders, substitutions, feature_name, two_files, dry_run, force_overwrite)
 
-    # output = view_feature_template.render(substitutions)
-    # print(output)
+
+def generate_all_previews(env, feature_names, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name):
+
+    # a single View that has a preview for all the Views
+    all_previews_substitutions = []
+
+    for feature_name in feature_names:
+        all_previews_substitutions.append({
+            'viewName': f"{feature_name}View",
+            'featureName': f"{feature_name}ViewFeature"
+        })
+
+    substitions = { 'allFeatures': all_previews_substitutions}
+
+    template_render = TemplateRender(f"AllPreviews.swift", env.get_template('AllPreviews.swift'), []) # all_previews_substitutions) // TODO is this subs actually needed here>
+        # ['render_file', 'template', 'substitutions', 'target_dir'],
+
+    # template_renders.append(TemplateRender(f"AllPreviewsView.swift", env.get_template('AllPreviews.swift'), all_previews_substitutions))
+    render_templates([template_render], substitions, feature_name, two_files, dry_run, force_overwrite)
+
 
 @click.command(no_args_is_help=True)
 @click.option('--two-files', is_flag=True, help="Put view and reducer into separate files.")
 @click.option('--sub-dirs', is_flag=True, help="Put each feature in a sub-directory")
+@click.option('--preview-all', is_flag=True, help="Generate a single View that previews all feature Views")
 @click.option('--force-overwrite', is_flag=True, help="Force overwriting any existing files.")
 @click.option('--dry-run', is_flag=True, help="Don't generate files, just preview any actions")
 @click.argument('feature_names', nargs=-1)
-def start(two_files, sub_dirs, force_overwrite, dry_run, feature_names):
+def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_names):
 
     if len(feature_names) < 1:
         print()
@@ -141,8 +152,15 @@ def start(two_files, sub_dirs, force_overwrite, dry_run, feature_names):
 
     script_dir = os.path.abspath(os.path.dirname(__file__))
 
+    templates_path = make_abs_path('templates')
+    file_loader = FileSystemLoader(templates_path)
+    env = Environment(loader=file_loader)
+
     for feature_name in feature_names:
-        process_template(script_dir, two_files, sub_dirs, force_overwrite, dry_run, feature_name)
+        process_template(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name)
+
+    if preview_all:
+        generate_all_previews(env, feature_names, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name)
 
     print()
     print("Done")
