@@ -6,7 +6,8 @@
 
 ## Motivation
 
-For those doing iOS dev, [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) by [PointFree](https://github.com/pointfreeco) is an excellent thing.
+I love [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) by 
+[PointFree](https://github.com/pointfreeco).
 
 `tca-scaffold` is tool for quickly generating stubs of TCA features. It generates basic `Reducer` and `View` files for each feature name.
 
@@ -16,6 +17,14 @@ For those doing iOS dev, [The Composable Architecture](https://github.com/pointf
 * creation of navigation stacks with sub-features (perhaps using decoupled navigation)
 * stub out unit test using e.g. `TestStore`
 
-## Let's go
+## Installation
 
-Visit the [Python3](Python) page for info on installing and using `tca-scaffold`.
+Install and update using [pip](https://pip.pypa.io/en/stable/getting-started/):
+
+```
+$ pip install -U tca-scaffold
+```
+
+## Thanks
+
+`tca-scaffold` is powered by [Jinja](https://github.com/pallets/jinja) and [click](https://github.com/pallets/click).
