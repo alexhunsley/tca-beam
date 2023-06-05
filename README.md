@@ -92,6 +92,10 @@ tca-beam is preparing two-by-fours...
 - (DRY RUN:)    Creating file PersonalDetailsView.swift
 ```
 
+There's a switch `--preview-all` which additionally generates an `AllPreviews.swift` file. This is single SwiftUI preview that contains
+all the feature views in one `VStack`. It's particularly useful if your features are limited in size, e.g. UI controls or thumbnails,
+and you want to see them all at once.
+
 Note that `TCA-beam` always creates files/folders relative to your current directory. It won't overwrite any existing files unless you
 use `--force-overwrite`.
 
@@ -102,10 +106,10 @@ To get help on command flags, run the command without parameters:
 Usage: tca-beam [OPTIONS] [FEATURE_NAMES]...
 
 Options:
-  --two-files        Put view and reducer into separate files.
+  --two-files        Put view and reducer into separate files
   --sub-dirs         Put each feature in a sub-directory
   --preview-all      Generate a single View that previews all feature Views
-  --force-overwrite  Force overwriting any existing files.
+  --force-overwrite  Force overwriting any existing files
   --dry-run          Don't generate files, just preview any actions
   --version          Print version and exit
   --help             Show this message and exit.
