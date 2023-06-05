@@ -129,6 +129,18 @@ def generate_all_previews(env, feature_names, script_dir, two_files, sub_dirs, p
     render_templates([template_render], substitutions_all_previews, feature_name, two_files, dry_run, force_overwrite)
 
 
+def run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_names):
+    for feature_name in feature_names:
+        process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature_name)
+
+    if preview_all:
+        generate_all_previews(env, feature_names, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name)
+
+    print()
+    print("Done")
+    print()
+
+
 @click.command(no_args_is_help=True)
 @click.option('--two-files', is_flag=True, help="Put view and reducer into separate files.")
 @click.option('--sub-dirs', is_flag=True, help="Put each feature in a sub-directory")
@@ -153,15 +165,8 @@ def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_na
     file_loader = FileSystemLoader(templates_path)
     env = Environment(loader=file_loader)
 
-    for feature_name in feature_names:
-        process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature_name)
+    run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_names)
 
-    if preview_all:
-        generate_all_previews(env, feature_names, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name)
-
-    print()
-    print("Done")
-    print()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
