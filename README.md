@@ -129,3 +129,6 @@ Contributions are encouraged: PRs or suggestions, feedback on template contents,
 
 `tca-scaffold` is powered by [Jinja](https://github.com/pallets/jinja) (lovely templating) and [click](https://github.com/pallets/click)
 (composable command line interface creation).
+
+And obviously, a large hat-tip to [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) by 
+[PointFree](https://github.com/pointfreeco).
