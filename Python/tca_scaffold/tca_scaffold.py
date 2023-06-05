@@ -13,8 +13,8 @@ from pathlib import Path
 # -[x] make script use abs path to the templates, no chdir!
 # -[x] --dry-run
 # -[ ] optional allPreviews view
-TemplateRender = namedtuple('TemplateRender', ['render_file', 'template', 'substitutions', 'target_dir'],
-                            defaults=['', '', '', '.'])
+TemplateRender = namedtuple('TemplateRender', ['render_file', 'template', 'target_dir'],
+                            defaults=['', '', '.'])
 
 
 def dbg(string):
@@ -31,7 +31,8 @@ def render_templates(templateRenders, substitutions, feature_name, two_files, dr
 
     console_prefix = "- (DRY RUN:) " if dry_run else "- "
 
-    dbg(f"templateRenders = {templateRenders}")
+    dbg(f"-------- render_templates: templateRenders = {templateRenders}")
+    dbg(f"-------- render_templates: substitutions = {substitutions}")
 
     print(f"{console_prefix}Feature '{feature_name}':")
 
@@ -90,6 +91,9 @@ def process_template(env, script_dir, two_files, sub_dirs, preview_all, force_ov
     view_content = view_template.render(substitutions)
     view_feature_content = view_feature_template.render(substitutions)
 
+    substitutions['reducerContent'] = view_feature_content
+    substitutions['viewContent'] = view_content
+
     template_renders = []
 
     target_dir = f"{feature_name}Feature" if sub_dirs else "."
@@ -98,16 +102,11 @@ def process_template(env, script_dir, two_files, sub_dirs, preview_all, force_ov
     if two_files:
         # f"{feature_name}View.swift"
 
-        template_renders.append(TemplateRender(f"{feature_name}ViewFeature.swift", env.get_template('TwoFile_ReducerPart.swift'), substitutions, target_dir))
-        template_renders.append(TemplateRender(f"{feature_name}View.swift", env.get_template('TwoFile_ViewPart.swift'), substitutions, target_dir))
+        template_renders.append(TemplateRender(f"{feature_name}ViewFeature.swift", env.get_template('TwoFile_ReducerPart.swift'), target_dir))
+        template_renders.append(TemplateRender(f"{feature_name}View.swift", env.get_template('TwoFile_ViewPart.swift'), target_dir))
     else:
         # for reducer + view in one file, we append just 'View' to feature name
-        template_renders.append(TemplateRender(f"{feature_name}View.swift", env.get_template('OneFile.swift'), substitutions, target_dir))
-
-    substitutions = {
-        'reducerContent': view_feature_content,
-        'viewContent': view_content
-    }
+        template_renders.append(TemplateRender(f"{feature_name}View.swift", env.get_template('OneFile.swift'), target_dir))
 
     render_templates(template_renders, substitutions, feature_name, two_files, dry_run, force_overwrite)
 
