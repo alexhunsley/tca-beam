@@ -28,6 +28,9 @@ $ pip install -U tca-beam
 
 ## Usage
 
+`tca-beam` always creates files/folders relative to your current directory. It won't overwrite any existing files unless you
+use `--force-overwrite`.
+
 To create three feature stubs based on the names `Login`, `Help`, `PersonalDetails`:
 
 ```
@@ -93,9 +96,6 @@ The `--dry-run` switch is really useful for checking out the behaviour without g
 There's a switch `--preview-all` which additionally generates an `AllPreviews.swift` file. This is single SwiftUI preview that contains
 all the feature views in one `VStack`. It's particularly useful if your features are limited in size, e.g. UI controls or thumbnails,
 and you want to see them all at once.
-
-Note that `TCA-beam` always creates files/folders relative to your current directory. It won't overwrite any existing files unless you
-use `--force-overwrite`.
 
 To get help on command flags, run the command without parameters:
 
