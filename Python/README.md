@@ -1,5 +1,4 @@
-This is a proof-of-concept implementation of [Scaffold for The Composable Architecture](../README.md) in Python.
+TCA-beam, a helper for The Composable Architecture for creating Views and Reducers for new features.
 
-Work in progress!
-
+https://github.com/alexhunsley/tca-beam
 

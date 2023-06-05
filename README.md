@@ -1,15 +1,115 @@
-# Scaffold for The Composable Architecture 
-
-## Implementation (cut to the chase)
-
-* [Python3](Python) (MVP working: multiple Reducer + View stub generation)
-
-## Motivation
+# TCA-beam 
 
 I love [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) by 
 [PointFree](https://github.com/pointfreeco).
 
-`tca-scaffold` is tool for quickly generating stubs of TCA features. It generates basic `Reducer` and `View` files for each feature name.
+And I'd like to spend less time copying, pasting, and renaming boilerplate for new features, and *more* time developing my features!
+
+Enter `tca-beam`. This tiny tool generates a compiler-ready basic `Reducer` and `View` for all the feature names you give
+it. *Put a spring in your step!*
+
+## The mission
+
+`TCA-beam` aims to be:
+
+* low friction (it's a Python command tool that is quickly installed with `pip`)
+* very simple to use in its default behaviour (features names are all it demands)
+* easily configurable, if the defaults don't suit you 
+* a project which is easy to extend or update later (it uses the [Jinja](https://github.com/pallets/jinja) template engine)
+
+
+## Installation
+
+Install and update using [pip](https://pip.pypa.io/en/stable/getting-started/):
+
+```
+$ pip install -U tca-beam
+```
+
+## Usage
+
+To create three feature stubs based on the names `Login`, `Help`, `PersonalDetails`:
+
+```
+❯ tca-beam Login Help PersonalDetails
+
+tca-beam is preparing two-by-fours...
+
+- Feature 'Login':
+-    Creating file LoginView.swift
+- Feature 'Help':
+-    Creating file HelpView.swift
+- Feature 'PersonalDetails':
+-    Creating file PersonalDetailsView.swift
+```
+
+Each file above contain both the reducer and the `View` for a feature.
+
+If you like separation of View from Reducer, you can ask for that:
+
+```
+❯ tca-beam --two-files Login Help PersonalDetails
+
+- Feature 'Login':
+-    Creating file LoginViewFeature.swift
+-    Creating file LoginView.swift
+- Feature 'Help':
+-    Creating file HelpViewFeature.swift
+-    Creating file HelpView.swift
+- Feature 'PersonalDetails':
+-    Creating file PersonalDetailsViewFeature.swift
+-    Creating file PersonalDetailsView.swift
+```
+
+And if you want each feature in its own folder, that's on the menu too:
+
+```
+❯ tca-beam --sub-dirs --two-files Login Help PersonalDetails
+
+- Feature 'Login':
+-    Creating file LoginFeature/LoginViewFeature.swift
+-    Creating file LoginFeature/LoginView.swift
+- Feature 'Help':
+-    Creating file HelpFeature/HelpViewFeature.swift
+-    Creating file HelpFeature/HelpView.swift
+- Feature 'PersonalDetails':
+-    Creating file PersonalDetailsFeature/PersonalDetailsViewFeature.swift
+-    Creating file PersonalDetailsFeature/PersonalDetailsView.swift
+```
+
+The `--dry-run` switch is really useful for checking out the behaviour without generating any files:
+
+```
+❯ tca-beam --dry-run Login Help PersonalDetails
+
+tca-beam is preparing two-by-fours...
+
+- (DRY RUN:) Feature 'Login':
+- (DRY RUN:)    Creating file LoginView.swift
+- (DRY RUN:) Feature 'Help':
+- (DRY RUN:)    Creating file HelpView.swift
+- (DRY RUN:) Feature 'PersonalDetails':
+- (DRY RUN:)    Creating file PersonalDetailsView.swift
+```
+
+Note that `TCA-beam` always creates files/folders relative to your current directory. It won't overwrite any existing files unless you
+use `--force-overwrite`.
+
+To get help on command flags, run the command without parameters:
+
+```
+❯ tca-beam
+Usage: tca-beam [OPTIONS] [FEATURE_NAMES]...
+
+Options:
+  --two-files        Put view and reducer into separate files.
+  --sub-dirs         Put each feature in a sub-directory
+  --preview-all      Generate a single View that previews all feature Views
+  --force-overwrite  Force overwriting any existing files.
+  --dry-run          Don't generate files, just preview any actions
+  --version          Print version and exit
+  --help             Show this message and exit.
+```
 
 ## Possible enhancements
 
@@ -17,14 +117,11 @@ I love [The Composable Architecture](https://github.com/pointfreeco/swift-compos
 * creation of navigation stacks with sub-features (perhaps using decoupled navigation)
 * stub out unit test using e.g. `TestStore`
 
-## Installation
+## Contributions
 
-Install and update using [pip](https://pip.pypa.io/en/stable/getting-started/):
+Contributions are encouraged: PRs or suggestions, feedback on template contents, etc.
 
-```
-$ pip install -U tca-scaffold
-```
+## Our friends in other repos
 
-## Thanks
-
-`tca-scaffold` is powered by [Jinja](https://github.com/pallets/jinja) and [click](https://github.com/pallets/click).
+`tca-scaffold` is powered by [Jinja](https://github.com/pallets/jinja) (lovely templating) and [click](https://github.com/pallets/click)
+(composable command line interface creation).

@@ -174,6 +174,10 @@ def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, version, f
     p("tca-beam is preparing two-by-fours...")
     p("")
 
+    # if dry_run:
+    #     p("In DRY-RUN mode. No files or folders will be created.")
+    #     p("")
+
     script_dir = os.path.abspath(os.path.dirname(__file__))
 
     templates_path = make_abs_path('templates')
