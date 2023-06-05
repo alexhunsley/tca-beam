@@ -22,6 +22,14 @@ def dbg(string):
     # print(string)
 
 
+def p(string):
+    print(string)
+
+
+def error(string):
+    print(string)
+
+
 def make_abs_path(rel_path):
     script_dir = os.path.dirname(__file__)
     return os.path.normpath(os.path.join(script_dir, rel_path))
@@ -34,16 +42,11 @@ def render_templates(templateRenders, substitutions, feature_name, two_files, dr
     dbg(f"-------- render_templates: templateRenders = {templateRenders}")
     dbg(f"-------- render_templates: substitutions = {substitutions}")
 
-    print(f"{console_prefix}Feature '{feature_name}':")
+    p(f"{console_prefix}Feature '{feature_name}':")
 
     for templateRender in templateRenders:
-        # Render the template with the substitutions
+
         stub_contents = templateRender.template.render(substitutions)
-
-        # When saving to disk, make the single file one end with View, not ViewFeature!
-        # print(output)
-
-        #TODO dry_run check before here!
 
         # Open the file for writing
         filename2 = templateRender.render_file
@@ -52,33 +55,28 @@ def render_templates(templateRenders, substitutions, feature_name, two_files, dr
 
         filepath = directory / filename2
 
-        # filepath = os.path.join(f"{feature_name}Feature", filename2) if sub_dirs else filename2
-        # filepath = os.path.join(templateRender.target_dir, filename2)
-
-        print(f"{console_prefix}   Creating file {filepath}")
+        p(f"{console_prefix}   Creating file {filepath}")
 
         if not dry_run:
             if os.path.isdir(filepath):
-                print(f'A directory named "{filepath}" already exists, refusing to overwrite.')
-                print()
+                error(f'A directory named "{filepath}" already exists, refusing to overwrite.')
+                error()
                 sys.exit(1)
 
             if not force_overwrite and os.path.isfile(filepath):
-                print(f'A file named "{filepath}" already exists, refusing to overwrite. Use --force-overwrite to suppress this error.')
-                print()
+                error(f'A file named "{filepath}" already exists, refusing to overwrite. Use --force-overwrite to suppress this error.')
+                error()
                 sys.exit(1)
 
-            # Create the directories if they don't exist
             directory.mkdir(parents=True, exist_ok=True)
 
             with open(filepath, 'w') as f:
                 f.write(stub_contents)
 
 
-def process_template(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name):
+def process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature_name):
     dbg(f"start process_template, sub_dirs = {sub_dirs}")
 
-    # Prepare the substitutions
     substitutions = {
         'viewName': f"{feature_name}View",
         'featureName': f"{feature_name}ViewFeature"
@@ -122,13 +120,13 @@ def generate_all_previews(env, feature_names, script_dir, two_files, sub_dirs, p
             'featureName': f"{feature_name}ViewFeature"
         })
 
-    substitions = { 'allFeatures': all_previews_substitutions}
+    substitutions_all_previews = { 'allFeatures': all_previews_substitutions}
 
-    template_render = TemplateRender(f"AllPreviews.swift", env.get_template('AllPreviews.swift'), []) # all_previews_substitutions) // TODO is this subs actually needed here>
+    template_render = TemplateRender(f"AllPreviews.swift", env.get_template('AllPreviews.swift'))
         # ['render_file', 'template', 'substitutions', 'target_dir'],
 
     # template_renders.append(TemplateRender(f"AllPreviewsView.swift", env.get_template('AllPreviews.swift'), all_previews_substitutions))
-    render_templates([template_render], substitions, feature_name, two_files, dry_run, force_overwrite)
+    render_templates([template_render], substitutions_all_previews, feature_name, two_files, dry_run, force_overwrite)
 
 
 @click.command(no_args_is_help=True)
@@ -156,7 +154,7 @@ def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_na
     env = Environment(loader=file_loader)
 
     for feature_name in feature_names:
-        process_template(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name)
+        process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature_name)
 
     if preview_all:
         generate_all_previews(env, feature_names, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name)
