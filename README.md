@@ -82,8 +82,6 @@ The `--dry-run` switch is really useful for checking out the behaviour without g
 ```
 ❯ tca-beam --dry-run Login Help PersonalDetails
 
-tca-beam is preparing two-by-fours...
-
 - (DRY RUN:) Feature 'Login':
 - (DRY RUN:)    Creating file LoginView.swift
 - (DRY RUN:) Feature 'Help':
