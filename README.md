@@ -10,10 +10,10 @@ it. *Put a spring in your step!*
 
 ## The mission
 
-`TCA-beam` aims to be:
+`tca-beam` aims to be:
 
 * low friction (it's a Python command tool that is quickly installed with `pip`)
-* very simple to use in its default behaviour (features names are all it demands)
+* very simple to use in its default behaviour (feature names are all it demands)
 * easily configurable, if the defaults don't suit you 
 * a project which is easy to extend or update later (it uses the [Jinja](https://github.com/pallets/jinja) template engine)
 
