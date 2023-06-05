@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "tca-scaffold"
-version = "0.2.0"
+name = "tca-beam"
+version = "0.3.4"
 description = "Feature stub generation for The Composable Architecture"
 authors = ["Alex Hunsley <alex.hunsley@gmail.com>"]
 readme = "README.md"
@@ -11,7 +11,7 @@ click = "^8.1.3"
 jinja2 = "^3.1.2"
 
 [tool.poetry.scripts]
-tca-scaffold = "tca_scaffold.tca_scaffold:start"
+tca-beam = "tca_beam.tca_beam:start"
 
 [build-system]
 requires = ["poetry-core"]

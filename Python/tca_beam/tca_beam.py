@@ -5,6 +5,14 @@ from collections import namedtuple
 from jinja2 import Environment, FileSystemLoader
 import click
 
+beam_version = "(beam is not packaged so no version)"
+
+try:
+    from tca_beam import __version__
+    beam_version = __version__
+except ImportError:
+    pass
+
 # TODO:
 # -[ ] upload to main pyPi
 # -[ ] make bbtests
@@ -140,13 +148,18 @@ def run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_
 
 
 @click.command(no_args_is_help=True)
-@click.option('--two-files', is_flag=True, help="Put view and reducer into separate files.")
+@click.option('--two-files', is_flag=True, help="Put view and reducer into separate files")
 @click.option('--sub-dirs', is_flag=True, help="Put each feature in a sub-directory")
 @click.option('--preview-all', is_flag=True, help="Generate a single View that previews all feature Views")
-@click.option('--force-overwrite', is_flag=True, help="Force overwriting any existing files.")
+@click.option('--force-overwrite', is_flag=True, help="Force overwriting any existing files")
 @click.option('--dry-run', is_flag=True, help="Don't generate files, just preview any actions")
+@click.option('--version', is_flag=True, help="Print version and exit")
 @click.argument('feature_names', nargs=-1)
-def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_names):
+def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, version, feature_names):
+
+    if version:
+        p(beam_version)
+        sys.exit(0)
 
     if len(feature_names) < 1:
         p()
