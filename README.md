@@ -1,4 +1,4 @@
-# Scaffold for The Composable Architecure 
+# Scaffold for The Composable Architecture 
 
 ## Implementation (cut to the chase)
 
@@ -13,7 +13,7 @@ For those doing iOS dev, [The Composable Architecture](https://github.com/pointf
 ## Possible enhancements
 
 * setup of higher order reducer with sub-reducers
-* creation of navigation stacks with subfeatures (perhaps using decoupled navigation)
+* creation of navigation stacks with sub-features (perhaps using decoupled navigation)
 * stub out unit test using e.g. `TestStore`
 
 ## Let's go
