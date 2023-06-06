@@ -14,7 +14,8 @@ except ImportError:
     pass
 
 # TODO:
-# -[ ] upload to main pyPi
+# [x] try trogon/textualize on tca-beam -- see results in my main TW -- might have to make explicit tca-beam 'make' command
+# -[x] upload to main pyPi
 # -[ ] make bbtests
 # -[x] option for preview-all
 # -[x] impl two files
