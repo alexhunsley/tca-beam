@@ -4,6 +4,7 @@ from pathlib import Path
 from collections import namedtuple
 from jinja2 import Environment, FileSystemLoader
 import click
+from trogon import tui
 
 beam_version = "(beam is not packaged so no version)"
 
@@ -147,8 +148,9 @@ def run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_
     p("Done")
     p()
 
-
-@click.command(no_args_is_help=True)
+@tui()
+@click.group(invoke_without_command=True)
+# @click.group()
 @click.option('--two-files', is_flag=True, help="Put view and reducer into separate files")
 @click.option('--sub-dirs', is_flag=True, help="Put each feature in a sub-directory")
 @click.option('--preview-all', is_flag=True, help="Generate a single View that previews all feature Views")
@@ -156,6 +158,8 @@ def run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_
 @click.option('--dry-run', is_flag=True, help="Don't generate files, just preview any actions")
 @click.option('--version', is_flag=True, help="Print version and exit")
 @click.argument('feature_names', nargs=-1)
+# @click.command(no_args_is_help=True)
+# @click.pass_context
 def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, version, feature_names):
 
     if version:
