@@ -162,6 +162,8 @@ def run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_
 # @click.pass_context
 def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, version, feature_names):
 
+    # TODO: "tui" is being absorbed as a feature name rather than a command! Problem is caused by accepting multiarg feature_names.
+
     if version:
         p(beam_version)
         sys.exit(0)
