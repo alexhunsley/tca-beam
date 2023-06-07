@@ -5,6 +5,8 @@ from collections import namedtuple
 from jinja2 import Environment, FileSystemLoader
 import click
 
+from config import BeamConfig
+
 beam_version = "(beam is not packaged so no version)"
 
 try:
@@ -36,7 +38,7 @@ def dbg(string):
     # print(string)
 
 
-def p(string = ""):
+def p(string=""):
     print(string)
 
 
@@ -49,9 +51,11 @@ def make_abs_path(rel_path):
     return os.path.normpath(os.path.join(script_dir, rel_path))
 
 
-def render_templates(templateRenders, substitutions, step_name, feature_name, two_files, dry_run, force_overwrite):
+def render_templates(config, templateRenders, substitutions, step_name):
 
-    console_prefix = "- (DRY RUN:) " if dry_run else "- "
+    print(f"Crashy, got config = {config}")
+
+    console_prefix = "- (DRY RUN:) " if config.dry_run else "- "
 
     dbg(f"-------- render_templates: templateRenders = {templateRenders}")
     dbg(f"-------- render_templates: substitutions = {substitutions}")
@@ -72,13 +76,13 @@ def render_templates(templateRenders, substitutions, step_name, feature_name, tw
 
         p(f"{console_prefix}   Creating file {filepath}")
 
-        if not dry_run:
+        if not config.dry_run:
             if os.path.isdir(filepath):
                 error(f'A directory named "{filepath}" already exists, refusing to overwrite.')
                 error()
                 sys.exit(1)
 
-            if not force_overwrite and os.path.isfile(filepath):
+            if not config.force_overwrite and os.path.isfile(filepath):
                 error(f'A file named "{filepath}" already exists, refusing to overwrite. Use --force-overwrite to suppress this error.')
                 error()
                 sys.exit(1)
@@ -89,8 +93,8 @@ def render_templates(templateRenders, substitutions, step_name, feature_name, tw
                 f.write(stub_contents + '\n')
 
 
-def process_template(env, two_files, sub_dirs, output_dir, force_overwrite, dry_run, feature_name):
-    dbg(f"start process_template, sub_dirs = {sub_dirs}")
+def process_template(config, feature_name):
+    dbg(f"start process_template, config = {config}, sub_dirs = {config.sub_dirs}")
 
     substitutions = {
         'viewName': f"{feature_name}View",
@@ -98,8 +102,8 @@ def process_template(env, two_files, sub_dirs, output_dir, force_overwrite, dry_
     }
 
     # Load the template
-    view_template = env.get_template('View.swift')
-    view_feature_template = env.get_template('ViewFeature.swift')
+    view_template = config.jinja_env.get_template('View.swift')
+    view_feature_template = config.jinja_env.get_template('ViewFeature.swift')
 
     view_content = view_template.render(substitutions)
     view_feature_content = view_feature_template.render(substitutions)
@@ -109,26 +113,26 @@ def process_template(env, two_files, sub_dirs, output_dir, force_overwrite, dry_
 
     template_renders = []
 
-    target_dir = f"{feature_name}Feature" if sub_dirs else "."
+    target_dir = f"{feature_name}Feature" if config.sub_dirs else "."
 
-    dbg(f"just made target_dir: {target_dir}, and sub_dirs == {sub_dirs}")
-    if two_files:
-        template_renders.append(TemplateRender(f"{feature_name}ViewFeature.swift", env.get_template('TwoFile_ReducerPart.swift'), target_dir))
-        template_renders.append(TemplateRender(f"{feature_name}View.swift", env.get_template('TwoFile_ViewPart.swift'), target_dir))
+    dbg(f"just made target_dir: {config.target_dir}, and sub_dirs == {config.sub_dirs}")
+    if config.two_files:
+        template_renders.append(TemplateRender(f"{feature_name}ViewFeature.swift", config.jinja_env.get_template('TwoFile_ReducerPart.swift'), target_dir))
+        template_renders.append(TemplateRender(f"{feature_name}View.swift", config.jinja_env.get_template('TwoFile_ViewPart.swift'), target_dir))
     else:
         # for reducer + view in one file, we append just 'View' to feature name
-        template_renders.append(TemplateRender(f"{feature_name}View.swift", env.get_template('OneFile.swift'), target_dir))
+        template_renders.append(TemplateRender(f"{feature_name}View.swift", config.jinja_env.get_template('OneFile.swift'), target_dir))
 
-    step_name = f"Feature '{feature_name}':"
-    render_templates(template_renders, substitutions, step_name, feature_name, two_files, dry_run, force_overwrite)
+    step_name = f"Feature '{feature_name}' and config = {config}:"
+    render_templates(config, template_renders, substitutions, step_name)
 
 
-def generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_name):
+def generate_all_preview(config):
 
     # a single View that has a preview for all the Views
     all_previews_substitutions = []
 
-    for feature_name in feature_names:
+    for feature_name in config.feature_names:
         all_previews_substitutions.append({
             'viewName': f"{feature_name}View",
             'featureName': f"{feature_name}ViewFeature"
@@ -136,17 +140,17 @@ def generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, pr
 
     substitutions_all_previews = { 'allFeatures': all_previews_substitutions}
 
-    template_render = TemplateRender(f"AllPreviews.swift", env.get_template('AllPreviews.swift'))
+    template_render = TemplateRender(f"AllPreviews.swift", config.jinja_env.get_template('AllPreviews.swift'))
 
-    render_templates([template_render], substitutions_all_previews, 'Preview for all features:', feature_name, two_files, dry_run, force_overwrite)
+    render_templates(config, [template_render], substitutions_all_previews, 'Preview for all features:')
 
 
-def run(env, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_names):
-    for feature_name in feature_names:
-        process_template(env, two_files, sub_dirs, output_dir, force_overwrite, dry_run, feature_name)
+def run(config):
+    for feature_name in config.feature_names:
+        process_template(config, feature_name)
 
-    if preview_all:
-        generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_name)
+    if config.preview_all:
+        generate_all_preview(config)
 
     p()
     p("Done")
@@ -168,6 +172,14 @@ def start(two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run
         p(beam_version)
         sys.exit(0)
 
+    script_dir = os.path.abspath(os.path.dirname(__file__))
+
+    templates_path = make_abs_path('templates')
+    file_loader = FileSystemLoader(templates_path)
+    jinja_env = Environment(loader=file_loader)
+
+    config = BeamConfig(script_dir, output_dir, jinja_env, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_names)
+
     if len(feature_names) < 1:
         p()
         p("Please give one or more feature name arguments (after any option flags).")
@@ -187,13 +199,7 @@ def start(two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run
 
     # the output_dir is relative to the user's current dir, NOT the script!
 
-    script_dir = os.path.abspath(os.path.dirname(__file__))
-
-    templates_path = make_abs_path('templates')
-    file_loader = FileSystemLoader(templates_path)
-    env = Environment(loader=file_loader)
-
-    run(env, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_names)
+    run(config)
 
 
 if __name__ == '__main__':
