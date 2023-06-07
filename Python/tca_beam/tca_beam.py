@@ -84,7 +84,7 @@ def render_templates(templateRenders, substitutions, step_name, feature_name, tw
                 f.write(stub_contents + '\n')
 
 
-def process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature_name):
+def process_template(env, two_files, sub_dirs, output_dir, force_overwrite, dry_run, feature_name):
     dbg(f"start process_template, sub_dirs = {sub_dirs}")
 
     substitutions = {
@@ -118,7 +118,7 @@ def process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature
     render_templates(template_renders, substitutions, step_name, feature_name, two_files, dry_run, force_overwrite)
 
 
-def generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name):
+def generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_name):
 
     # a single View that has a preview for all the Views
     all_previews_substitutions = []
@@ -136,12 +136,12 @@ def generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, pr
     render_templates([template_render], substitutions_all_previews, 'Preview for all features:', feature_name, two_files, dry_run, force_overwrite)
 
 
-def run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_names):
+def run(env, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_names):
     for feature_name in feature_names:
-        process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature_name)
+        process_template(env, two_files, sub_dirs, output_dir, force_overwrite, dry_run, feature_name)
 
     if preview_all:
-        generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_name)
+        generate_all_preview(env, feature_names, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_name)
 
     p()
     p("Done")
@@ -152,11 +152,12 @@ def run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_
 @click.option('--two-files', is_flag=True, help="Put view and reducer into separate files")
 @click.option('--sub-dirs', is_flag=True, help="Put each feature in a sub-directory")
 @click.option('--preview-all', is_flag=True, help="Generate a single View that previews all feature Views")
+@click.option('--output-dir', default='.', help="Output directory (defaults to current dir)")
 @click.option('--force-overwrite', is_flag=True, help="Force overwriting any existing files")
 @click.option('--dry-run', is_flag=True, help="Don't generate files, just preview any actions")
 @click.option('--version', is_flag=True, help="Print version and exit")
 @click.argument('feature_names', nargs=-1)
-def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, version, feature_names):
+def start(two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, version, feature_names):
 
     if version:
         p(beam_version)
@@ -179,13 +180,15 @@ def start(two_files, sub_dirs, preview_all, force_overwrite, dry_run, version, f
     #     p("In DRY-RUN mode. No files or folders will be created.")
     #     p("")
 
+    # the output_dir is relative to the user's current dir, NOT the script!
+
     script_dir = os.path.abspath(os.path.dirname(__file__))
 
     templates_path = make_abs_path('templates')
     file_loader = FileSystemLoader(templates_path)
     env = Environment(loader=file_loader)
 
-    run(env, script_dir, two_files, sub_dirs, preview_all, force_overwrite, dry_run, feature_names)
+    run(env, script_dir, two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, feature_names)
 
 
 if __name__ == '__main__':

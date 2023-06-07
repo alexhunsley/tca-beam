@@ -288,3 +288,7 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains,python
 .DS_Store
+
+
+# AH
+XcodeTestProject
