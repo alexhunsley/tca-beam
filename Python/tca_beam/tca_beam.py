@@ -23,6 +23,10 @@ except ImportError:
 # -[x] make script use abs path to the templates, no chdir!
 # -[x] --dry-run
 
+# For docs:
+#  tca-beam won't complain if the output_dir already exists, regardless of force_overwrite flag (which only applies to files).
+#
+
 TemplateRender = namedtuple('TemplateRender', ['render_file', 'template', 'target_dir'],
                             defaults=['', '', '.'])
 
@@ -59,11 +63,12 @@ def render_templates(templateRenders, substitutions, step_name, feature_name, tw
         stub_contents = templateRender.template.render(substitutions)
 
         # Open the file for writing
-        filename2 = templateRender.render_file
+        filename = templateRender.render_file
 
-        directory = Path(templateRender.target_dir)
+        structure_directory = Path(templateRender.target_dir)
 
-        filepath = directory / filename2
+        abs_directory = config.output_dir / structure_directory
+        filepath = abs_directory / filename
 
         p(f"{console_prefix}   Creating file {filepath}")
 
@@ -78,7 +83,7 @@ def render_templates(templateRenders, substitutions, step_name, feature_name, tw
                 error()
                 sys.exit(1)
 
-            directory.mkdir(parents=True, exist_ok=True)
+            abs_directory.mkdir(parents=True, exist_ok=True)
 
             with open(filepath, 'w') as f:
                 f.write(stub_contents + '\n')
