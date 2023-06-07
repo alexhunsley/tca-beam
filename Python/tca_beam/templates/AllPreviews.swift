@@ -10,9 +10,12 @@ public struct AllPreviews_Preview: PreviewProvider {
             Spacer()
 {% for feature in allFeatures %}
             {{ feature.viewName }}(store: StoreOf<{{ feature.featureName }}>(
-                    initialState: .init(),
-                    reducer: {{ feature.featureName }}()
-                )
+                initialState: .init()) {
+                    {{ feature.featureName }}()
+                }
+//                 withDependencies: {
+//                     $0.someDependency = something
+//                 }
             )
             Spacer()
 {% endfor %}
