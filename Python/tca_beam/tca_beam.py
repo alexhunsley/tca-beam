@@ -81,7 +81,7 @@ def render_templates(templateRenders, substitutions, step_name, feature_name, tw
             directory.mkdir(parents=True, exist_ok=True)
 
             with open(filepath, 'w') as f:
-                f.write(stub_contents)
+                f.write(stub_contents + '\n')
 
 
 def process_template(env, two_files, sub_dirs, force_overwrite, dry_run, feature_name):
