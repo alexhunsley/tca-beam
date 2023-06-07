@@ -123,7 +123,7 @@ def process_template(config, feature_name):
         # for reducer + view in one file, we append just 'View' to feature name
         template_renders.append(TemplateRender(f"{feature_name}View.swift", config.jinja_env.get_template('OneFile.swift'), target_dir))
 
-    step_name = f"Feature '{feature_name}' and config = {config}:"
+    step_name = f"Feature '{feature_name}':"
     render_templates(config, template_renders, substitutions, step_name)
 
 
