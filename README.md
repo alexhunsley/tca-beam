@@ -14,7 +14,7 @@ it. *Put a spring in your step!*
 
 * low friction (it's a Python command tool that is quickly installed with `pip`)
 * very simple to use in its default behaviour (feature names are all it demands)
-* easily configurable, if the defaults don't suit you 
+* easily configurable, if the defaults don't suit you (WIP!)
 * a project which is easy to extend or update later (it uses the [Jinja](https://github.com/pallets/jinja) template engine)
 
 
