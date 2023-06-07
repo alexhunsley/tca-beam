@@ -53,8 +53,6 @@ def make_abs_path(rel_path):
 
 def render_templates(config, templateRenders, substitutions, step_name):
 
-    print(f"Crashy, got config = {config}")
-
     console_prefix = "- (DRY RUN:) " if config.dry_run else "- "
 
     dbg(f"-------- render_templates: templateRenders = {templateRenders}")
