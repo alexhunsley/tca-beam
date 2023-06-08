@@ -45,11 +45,11 @@ class PermanentSettings:
         if ("{" in setting_string or "}" in setting_string) and "{{featureName}}" not in setting_string:
             p(f"""
 
-ERROR: Found a user-customised settings string that seems to contain a corrupt tag:
+ERROR: Found a user-customised settings string for key '{setting_name}' that seems to contain a corrupt tag:
 
     {setting_string}
 
-The only valid tag you can use is '{{featureName}}'.
+The only tag you can use is '{{{{featureName}}}}'.
 """)
             print_settings_advice_and_exit()
 
