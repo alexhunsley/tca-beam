@@ -12,7 +12,7 @@ def p(string=""):
 
 
 def error(string):
-    print(string)
+    print(f"\n ERROR: {string}")
 
 
 def make_abs_path(rel_path):

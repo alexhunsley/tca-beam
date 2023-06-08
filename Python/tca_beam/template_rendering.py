@@ -1,3 +1,4 @@
+import sys
 from collections import namedtuple
 from pathlib import Path
 from .helpers import *
@@ -32,12 +33,12 @@ def render_templates(config, templateRenders, substitutions, step_name):
         if not config.dry_run:
             if os.path.isdir(filepath):
                 error(f'A directory named "{filepath}" already exists, refusing to overwrite.')
-                error()
+                p()
                 sys.exit(1)
 
             if not config.force_overwrite and os.path.isfile(filepath):
                 error(f'A file named "{filepath}" already exists, refusing to overwrite. Use --force-overwrite to suppress this error.')
-                error()
+                p()
                 sys.exit(1)
 
             abs_directory.mkdir(parents=True, exist_ok=True)

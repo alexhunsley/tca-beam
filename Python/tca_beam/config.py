@@ -4,7 +4,19 @@ from jinja2 import Environment
 from .helpers import *
 
 
+def print_settings_advice_and_exit():
+    p("""            
+    Please check the file ~/.beam-settings.toml for issues or corruption,
+    and consider deleting it and running 'tca-beam --customise-settings'
+    to generate the file again with the default values.
+    
+    """)
+
+    sys.exit(1)
+
+
 class PermanentSettings:
+
     def __init__(self, configParser):
         self.configParser = configParser
         self.two_files_view_part_filename = self.sanitized_setting('two_files_view_part_filename')
@@ -16,7 +28,18 @@ class PermanentSettings:
 
     def sanitized_setting(self, setting_name) -> str:
         section = "file_naming"
-        setting_string = self.configParser.get(section, setting_name)
+
+        setting_string = ""
+
+        try:
+            setting_string = self.configParser.get(section, setting_name)
+        except Exception as e:
+            error(f"Error reading setting '{setting_name}' from the settings file.\n")
+            print_settings_advice_and_exit()
+
+        if not setting_string or len(setting_string) <= 0:
+            error("Couldn't find a key {setting_name} in the ")
+            print_settings_advice_and_exit()
 
         # check for bungled string replacement in settings
         if ("{" in setting_string or "}" in setting_string) and "{{featureName}}" not in setting_string:
@@ -24,15 +47,11 @@ class PermanentSettings:
 
 ERROR: Found a user-customised settings string that seems to contain a corrupt tag:
 
-    f{setting_string}
+    {setting_string}
 
 The only valid tag you can use is '{{featureName}}'.
- 
-Please check the file ~/.beam-settings.toml for issues or corruption,
-and consider deleting it and running with flag --customise-settings to generate this file again with the defaults.
-
 """)
-            sys.exit(1)
+            print_settings_advice_and_exit()
 
         dbg(f"Got sanitized settings: {setting_string}")
 
