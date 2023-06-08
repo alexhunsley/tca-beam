@@ -1,0 +1,6 @@
+[file_naming]
+two_files_view_part_filename = "{{featureName}}View.swift"
+two_files_reducer_part_filename = "{{featureName}}FeatureView.swift"
+one_file_filename = "{{featureName}}View.swift"
+preview_all_filename = "PreviewAllView.swift"
+feature_subdirs_dir_name = "{{featureName}}"
