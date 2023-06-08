@@ -1,5 +1,7 @@
 # TCA-beam 
 
+[![PyPI version](https://badge.fury.io/py/tca-beam.svg)](https://pypi.org/project/tca-beam)
+
 I love [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) by 
 [PointFree](https://github.com/pointfreeco).
 
