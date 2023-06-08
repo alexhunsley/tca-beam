@@ -28,7 +28,7 @@ $ pip install -U tca-beam
 
 ## Usage
 
-`tca-beam` always creates files/folders relative to your current directory. It won't overwrite any existing files unless you
+`tca-beam` creates files/folders relative to your current directory by default. It won't overwrite any existing files unless you
 use `--force-overwrite`.
 
 To create three feature stubs based on the names `Login`, `Help`, `PersonalDetails`:
