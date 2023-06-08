@@ -6,7 +6,7 @@ from .config import BeamConfig
 from .template_rendering import *
 from .run import run
 
-beam_version = "(beam is not packaged so no version)"
+beam_version = "(no version because beam is not packaged)"
 
 try:
     from tca_beam import __version__
