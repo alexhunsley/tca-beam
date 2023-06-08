@@ -35,7 +35,7 @@ def personalize_permanent_settings(force=False):
     p(f"I've copied default settings to '{destination_settings_path}'.")
     p(f"Please edit this file with your favourite text editor.")
     p()
-    p("Note that you can later delete this file to go back to the defaults.")
+    p("To go back to the defaults settings, just delete this file.")
     p("")
     sys.exit(0)
 

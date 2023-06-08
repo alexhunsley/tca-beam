@@ -127,6 +127,8 @@ Beam has defaults for how it names files, but you can change the filename style:
 
 I've copied default settings to '/Users/alexhunsley/.beam-settings.toml'.
 Please edit this file with your favourite text editor.
+
+To go back to the defaults settings, just delete this file.
 ```
 
 To get help on command flags, run the command without parameters:
