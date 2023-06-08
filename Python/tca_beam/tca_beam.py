@@ -1,11 +1,10 @@
 import os
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from collections import namedtuple
 from jinja2 import Environment, FileSystemLoader
 import click
-
-from config import BeamConfig
 
 beam_version = "(beam is not packaged so no version)"
 
@@ -28,6 +27,20 @@ except ImportError:
 # For docs:
 #  tca-beam won't complain if the output_dir already exists, regardless of force_overwrite flag (which only applies to files).
 #
+
+@dataclass
+class BeamConfig:
+	script_dir: str
+	target_dir: str
+	jinja_env: Environment
+	two_files: bool
+	sub_dirs: bool
+	preview_all: bool
+	output_dir: str
+	force_overwrite: bool
+	dry_run: bool
+	feature_names: [str]
+
 
 TemplateRender = namedtuple('TemplateRender', ['render_file', 'template', 'target_dir'],
                             defaults=['', '', '.'])
