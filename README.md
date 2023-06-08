@@ -16,7 +16,7 @@ it. *Put a spring in your step!*
 
 * low friction (it's a Python command tool that is quickly installed with `pip`)
 * very simple to use in its default behaviour (feature names are all it demands)
-* easily configurable, if the defaults don't suit you (WIP!)
+* easily configurable, if the defaults don't suit you
 * a project which is easy to extend or update later (it uses the [Jinja](https://github.com/pallets/jinja) template engine)
 
 
@@ -99,6 +99,15 @@ There's a switch `--preview-all` which additionally generates an `AllPreviews.sw
 all the feature views in one `VStack`. It's particularly useful if your features are limited in size, e.g. UI controls or thumbnails,
 and you want to see them all at once.
 
+Beam has defaults for how it names files, but you can change the filename style:
+
+```
+❯ tca-beam --customise-settings
+
+I've copied default settings to '/Users/alexhunsley/.beam-settings.toml'.
+Please edit this file with your favourite text editor.
+```
+
 To get help on command flags, run the command without parameters:
 
 ```
@@ -106,13 +115,16 @@ To get help on command flags, run the command without parameters:
 Usage: tca-beam [OPTIONS] [FEATURE_NAMES]...
 
 Options:
-  --two-files        Put view and reducer into separate files
-  --sub-dirs         Put each feature in a sub-directory
-  --preview-all      Generate a single View that previews all feature Views
-  --force-overwrite  Force overwriting any existing files
-  --dry-run          Don't generate files, just preview any actions
-  --version          Print version and exit
-  --help             Show this message and exit.
+  --two-files           Put view and reducer into separate files
+  --sub-dirs            Put each feature in a sub-directory
+  --preview-all         Generate a single View that previews all feature Views
+  --output-dir TEXT     Output directory (defaults to current dir)
+  --force-overwrite     Force overwriting any existing files
+  --dry-run             Don't generate files, just preview any actions
+  --customise-settings  Generate a user-editable file to tweak file naming
+                        settings.
+  --version             Print version and exit
+  --help                Show this message and exit.
 ```
 
 ## Possible enhancements

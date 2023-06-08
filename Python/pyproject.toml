@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tca-beam"
-version = "0.5.6"
+version = "0.6.0"
 description = "Feature stub generation for The Composable Architecture"
 authors = ["Alex Hunsley <alex.hunsley@gmail.com>"]
 readme = "README.md"

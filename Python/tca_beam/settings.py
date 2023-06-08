@@ -31,9 +31,12 @@ def personalize_permanent_settings(force=False):
     # Copy the settings file
     shutil.copyfile(default_settings_path, destination_settings_path)
 
-    p(f"I've copied default settings to {destination_settings_path}.")
+    p()
+    p(f"I've copied default settings to '{destination_settings_path}'.")
     p(f"Please edit this file with your favourite text editor.")
     p()
+    p("Note that you can later delete this file to go back to the defaults.")
+    p("")
     sys.exit(0)
 
 
