@@ -133,6 +133,16 @@ Options:
 * creation of navigation stacks with sub-features (perhaps using decoupled navigation)
 * stub out unit test using e.g. `TestStore`
 
+## Alternatives
+
+There are other tools, of course, which will allow you to do something similar:
+
+* Xcode templates
+* Meta-programming using e.g. Sourcery
+
+Beam hopes to differentiate itself by working towards to allowing easy creation of higher-order reducers + subreducers. This will allow
+quickly generated starting points for common patterns like navigation.
+
 ## Contributions
 
 Contributions are encouraged: PRs or suggestions, feedback on template contents, etc.
