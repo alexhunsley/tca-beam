@@ -104,25 +104,18 @@ def run(config):
 
     for index, feature_name in enumerate(config.feature_names):
 
-        is_main_reducer = True if index == 0 else False
-
-
-        # # for HOR: varName, featureName
-        #
-
         substitutions = {
             'viewName': f"{feature_name}View",
             'featureName': f"{feature_name}ViewFeature",
         }
 
-        if is_main_reducer:
+        # main reducer in HOR mode has extra gubbins
+        if index == 0:
             substitutions.update(
                 {
                     'subReducerFeatures': sub_reducer_feature_substitutions
                 }
             )
-
-        print(f"===== mainloop: {index} {feature_name} isMain: {is_main_reducer} subs: {substitutions}")
 
         process_template(config,
                          feature_name,
