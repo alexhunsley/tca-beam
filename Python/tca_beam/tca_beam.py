@@ -13,18 +13,19 @@ except ImportError:
     pass
 
 # TODO:
-# [x] try trogon/textualize on tca-beam -- see results in my main TW -- might have to make explicit tca-beam 'make' command
-# -[x] upload to main pyPi
+# -[ ] add --suppress-views (implies two-files style but only makes the reducers)
 # -[ ] make bbtests
+# -[x] try trogon/textualize on tca-beam -- see results in my main TW -- might have to make explicit tca-beam 'make' command
+# -[x] upload to main pyPi
 # -[x] option for preview-all
 # -[x] impl two files
 # -[x] flags for 'features in sub_dirs'
 # -[x] make script use abs path to the templates, no chdir!
 # -[x] --dry-run
-
 # For docs:
 #  tca-beam won't complain if the output_dir already exists, regardless of force_overwrite flag (which only applies to files).
 #
+
 
 # When you're testing and playing with beam, it might be tempting to set up a host xcode project with a _link_ to a folder
 # where you are generating the files with beam.
@@ -36,13 +37,14 @@ except ImportError:
 @click.option('--two-files', is_flag=True, help="Put view and reducer into separate files")
 @click.option('--sub-dirs', is_flag=True, help="Put each feature in a sub-directory")
 @click.option('--preview-all', is_flag=True, help="Generate a single View that previews all feature Views")
+@click.option('--make-hor', is_flag=True, help="Make first feature name a higher order reducer that scopes in the remaining ones as sub-reducers")
 @click.option('--output-dir', default='.', help="Output directory (defaults to current dir)")
 @click.option('--force-overwrite', is_flag=True, help="Force overwriting any existing files")
 @click.option('--dry-run', is_flag=True, help="Don't generate files, just preview any actions")
 @click.option('--customise-settings', is_flag=True, help="Generate a user-editable file to tweak file naming settings.")
 @click.option('--version', is_flag=True, help="Print version and exit")
 @click.argument('feature_names', nargs=-1)
-def start(two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run, customise_settings, version, feature_names):
+def start(two_files, sub_dirs, preview_all, make_hor, output_dir, force_overwrite, dry_run, customise_settings, version, feature_names):
 
     if customise_settings:
         personalize_permanent_settings()
@@ -62,7 +64,7 @@ def start(two_files, sub_dirs, preview_all, output_dir, force_overwrite, dry_run
     jinja_env = Environment(loader=file_loader)
 
     config = BeamConfig(PermanentSettings(permanent_settings), script_dir, output_dir, jinja_env, two_files, sub_dirs, preview_all,
-                        output_dir, force_overwrite, dry_run, feature_names)
+                        make_hor, output_dir, force_overwrite, dry_run, feature_names)
 
     if len(feature_names) < 1:
         p()

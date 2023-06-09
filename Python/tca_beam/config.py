@@ -67,6 +67,7 @@ class BeamConfig:
     two_files: bool
     sub_dirs: bool
     preview_all: bool
+    make_hor: bool
     output_dir: str
     force_overwrite: bool
     dry_run: bool

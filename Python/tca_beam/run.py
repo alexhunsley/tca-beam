@@ -1,14 +1,15 @@
 from .template_rendering import *
 
 
-def process_template(config, feature_name):
+def process_template(config, feature_name, substitutions):
     dbg(f"start process_template, config = {config}, sub_dirs = {config.sub_dirs}")
 
-    substitutions = {
-        'viewName': f"{feature_name}View",
-        'featureName': f"{feature_name}ViewFeature"
-    }
-
+# # for HOR: varName, featureName
+#     substitutions = {
+#         'viewName': f"{feature_name}View",
+#         'featureName': f"{feature_name}ViewFeature",
+#     }
+#
     # Load the template
     view_template = config.jinja_env.get_template('View.swift')
     view_feature_template = config.jinja_env.get_template('ViewFeature.swift')
@@ -70,9 +71,63 @@ def generate_all_preview(config):
     render_templates(config, [template_render], substitutions_all_previews, 'Preview for all features:')
 
 
+# CapitalNameStyleString -> capitalNameStyleString
+def to_camel_case(string):
+    return string[0].lower() + string[1:]
+
+
+def make_sub_reducer_substitions(config):
+
+    substitutions = {}
+
+    for feature_name in config.feature_names[1:]:
+
+        feature_name_as_var = to_camel_case(feature_name)
+
+        substitutions.update(
+            {
+                feature_name:
+                    {
+                        # make 'varName' more specific! e.g. featureVarNameInHOR
+                        'varName': f"{feature_name_as_var}",
+                        'featureName': f"{feature_name}ViewFeature"
+                    }
+            }
+        )
+
+    return substitutions
+
+
 def run(config):
-    for feature_name in config.feature_names:
-        process_template(config, feature_name)
+
+    sub_reducer_feature_substitutions = make_sub_reducer_substitions(config) if config.make_hor else {}
+
+    for index, feature_name in enumerate(config.feature_names):
+
+        is_main_reducer = True if index == 0 else False
+
+
+        # # for HOR: varName, featureName
+        #
+
+        substitutions = {
+            'viewName': f"{feature_name}View",
+            'featureName': f"{feature_name}ViewFeature",
+        }
+
+        if is_main_reducer:
+            substitutions.update(
+                {
+                    'subReducerFeatures': sub_reducer_feature_substitutions
+                }
+            )
+
+        print(f"===== mainloop: {index} {feature_name} isMain: {is_main_reducer} subs: {substitutions}")
+
+        process_template(config,
+                         feature_name,
+                         substitutions)
+                         # sub_reducer_feature_substitutions if is_main_reducer else {})
 
     if config.preview_all:
         generate_all_preview(config)
