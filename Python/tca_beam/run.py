@@ -1,7 +1,7 @@
 from .template_rendering import *
 
 
-def process_template(config, feature_name, substitutions):
+def process_template(config, feature_name, substitutions, extra_text_for_step_display=""):
     dbg(f"start process_template, config = {config}, sub_dirs = {config.sub_dirs}")
 
 # # for HOR: varName, featureName
@@ -46,7 +46,7 @@ def process_template(config, feature_name, substitutions):
                                                config.jinja_env.get_template('OneFile.swift'),
                                                target_dir))
 
-    step_name = f"Feature '{feature_name}':"
+    step_name = f"Feature {extra_text_for_step_display}'{feature_name}':"
     render_templates(config, template_renders, substitutions, step_name)
 
 
@@ -123,7 +123,8 @@ def run(config):
 
         process_template(config,
                          feature_name,
-                         substitutions)
+                         substitutions,
+                         "(HOR) " if (config.make_hor and index == 0) else "")
                          # sub_reducer_feature_substitutions if is_main_reducer else {})
 
     if config.preview_all:

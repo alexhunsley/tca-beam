@@ -37,7 +37,7 @@ The above example creates separate features -- they don't know anything about ea
 
 If you'd like to generate a higher-order reducer that has sub-reducers, use `--make-hor`.
 
-For example, suppose you want a `Thermostat` reducer that has two sub-reducer `TempSensor` and `Heater`:
+For example, suppose you want a `Thermostat` reducer that has two sub-reducers `TempSensor` and `Heater`:
 
 ```
 ❯ tca-beam Login Help PersonalDetails Products Inbox Settings
