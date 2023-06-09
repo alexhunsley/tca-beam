@@ -46,7 +46,7 @@ For example, suppose you want a `Thermostat` reducer that has two sub-reducers `
 The first feature/reducer name given, `Thermostat`, is the HOR. The code generated for it `Scope`s in the other two
 reducers in the usual way and generates a skeleton `switch` on the sub-reducer actions.
 
-Search the generated code for `// Beam-TODO` to see where you might start fleshing things out.
+Search the generated code for `// Beam-TODO` to see where you might start fleshing out your skeleton code.
 
 ## The mission
 
