@@ -169,7 +169,7 @@ Options:
 
 ## Possible enhancements
 
-* setup of higher order reducer with sub-reducers
+* add more higher order reducers
 * creation of navigation stacks with sub-features (perhaps using decoupled navigation)
 * stub out unit test using e.g. `TestStore`
 
@@ -180,7 +180,7 @@ There are other tools, of course, which will allow you to do something similar:
 * Xcode templates
 * Meta-programming using e.g. Sourcery
 
-Beam hopes to differentiate itself by working towards to allowing easy creation of higher-order reducers + subreducers. This will allow
+Beam hopes to differentiate itself by working towards to allowing easy creation of higher-order reducers + sub-reducers. This will allow
 quickly generated starting points for common patterns like navigation.
 
 ## Contributions
