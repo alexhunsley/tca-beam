@@ -21,7 +21,7 @@ def process_template(config, feature_name):
 
     template_renders = []
 
-    target_dir = config.permanent_settings.feature_subdirs_dir_name.replace("{{featureName}}", feature_name)
+    target_dir = config.permanent_settings.feature_subdirs_dir_name.replace("{{featureName}}", feature_name) if config.sub_dirs else '.'
 
     dbg(f"just made target_dir: {config.target_dir}, and sub_dirs == {config.sub_dirs}")
     if config.two_files:
