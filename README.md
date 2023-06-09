@@ -10,7 +10,7 @@ And I'd like to spend less time copying, pasting, and renaming boilerplate for n
 Enter `tca-beam`. This tiny tool generates a compiler-ready basic `Reducer` and `View` for all the feature names you give
 it. *Put a spring in your step!*
 
-Higher-order reducer generation is being added experimentally; see the `--make-hor` flag.
+Higher-order reducers are being added to Beam; see the `--make-hor` flag for the first iteration.
 
 ## Quick Start
 
