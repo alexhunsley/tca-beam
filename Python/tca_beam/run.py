@@ -4,12 +4,6 @@ from .template_rendering import *
 def process_template(config, feature_name, substitutions, extra_text_for_step_display=""):
     dbg(f"start process_template, config = {config}, sub_dirs = {config.sub_dirs}")
 
-# # for HOR: varName, featureName
-#     substitutions = {
-#         'viewName': f"{feature_name}View",
-#         'featureName': f"{feature_name}ViewFeature",
-#     }
-#
     # Load the template
     view_template = config.jinja_env.get_template('View.swift')
     view_feature_template = config.jinja_env.get_template('ViewFeature.swift')
