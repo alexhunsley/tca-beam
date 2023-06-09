@@ -10,9 +10,11 @@ And I'd like to spend less time copying, pasting, and renaming boilerplate for n
 Enter `tca-beam`. This tiny tool generates a compiler-ready basic `Reducer` and `View` for all the feature names you give
 it. *Put a spring in your step!*
 
+Higher-order reducer generation is being added experimentally; see the `--make-hor` flag.
+
 ## Quick Start
 
-To create compiling code for many features (feature = reducer + view), with one swift file per feature:
+To create compile-ready code for many features (feature = reducer + view), with one swift file per feature:
 
 ```
 ❯ tca-beam Login Help PersonalDetails Products Inbox Settings
@@ -30,6 +32,28 @@ tca-beam is preparing two-by-fours...
 ```
 
 `tca-beam` doesn't create or alter Xcode projects; you will need to do the usual "Add files" in your project.
+
+The above example creates separate features -- they don't know anything about each other.
+
+If you'd like to generate a higher-order reducer that has sub-reducers, use `--make-hor`.
+
+For example, suppose you want a `Thermostat` reducer that has two sub-reducer `TempSensor` and `Heater`:
+
+```
+❯ tca-beam Login Help PersonalDetails Products Inbox Settings
+
+tca-beam is preparing two-by-fours...
+
+- Feature 'Login':
+-    Creating file LoginView.swift
+- Feature 'Help':
+-    Creating file HelpView.swift
+- Feature 'PersonalDetails':
+-    Creating file PersonalDetailsView.swift
+
+[... etc.]
+```
+
 
 ## The mission
 
