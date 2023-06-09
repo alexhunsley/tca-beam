@@ -29,7 +29,7 @@ tca-beam is preparing two-by-fours...
 [... etc.]
 ```
 
-Note that `tca-beam` doesn't create or alter Xcode projects; you need to "Add files" your Xcode project.
+`tca-beam` doesn't create or alter Xcode projects; you will need to do the usual "Add files" in your project.
 
 ## The mission
 
