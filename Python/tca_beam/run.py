@@ -55,7 +55,11 @@ def generate_all_preview(config):
     # a single View that has a preview for all the Views
     all_previews_substitutions = []
 
-    for feature_name in config.feature_names:
+    # If making a HOR, we omit the first reducer in all previews --
+    # probably don't want it previewed
+    feature_names = config.feature_names[1:] if config.make_hor else config.feature_names
+
+    for feature_name in feature_names:
         all_previews_substitutions.append({
             'viewName': f"{feature_name}View",
             'featureName': f"{feature_name}ViewFeature"
