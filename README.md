@@ -12,6 +12,10 @@ it. *Put a spring in your step!*
 
 Higher-order reducers are being added to Beam; see the `--make-hor` flag for the first iteration.
 
+## WWDC 2023 Note
+
+With the lovely addition of `@Observable` and macros to Swift, TCA code promises to get a good bit simpler. Let's see.
+
 ## Quick Start
 
 To create compile-ready code for many features (feature = reducer + view), with one swift file per feature:
