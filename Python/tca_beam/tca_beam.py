@@ -3,6 +3,8 @@ import click
 from .config import BeamConfig, PermanentSettings
 from .run import run
 from .settings import *
+from .text_tree_parser import *
+import os
 
 beam_version = "(no version because beam is not packaged)"
 
@@ -31,6 +33,45 @@ except ImportError:
 # where you are generating the files with beam.
 # However, Xcode however won't add these files to any target (it's how linked folders work), so you're probably better off
 # just adding a folder group to your project (in the usual way) after you've generated the files with beam.
+
+
+
+def start_test_tree():
+
+    # hacky PoC: we just drive the start function, for now
+
+    root_nodes = []
+    non_leaf_nodes = []
+
+    # root_leaf_func = lambda feature_name: create_simple_reducer(feature_name)
+    # non_leaf_func = lambda feature_names: create_hor_reducer(feature_names)
+
+    root_leaf_func = lambda feature_name: root_nodes.append(feature_name)
+    # non_leaf_func = lambda feature_names: non_leaf_nodes.extend(feature_names)
+    non_leaf_func = lambda feature_names: non_leaf_nodes.append(feature_names)
+
+
+    process_nodes_from_file("tca_beam/tree.txt", root_leaf_func, non_leaf_func)
+
+
+    for feature_name in root_nodes:
+        create_simple_reducer(feature_name)
+
+    # We need to fix the data to prevent our HOR data -> file generation
+    # from clobbering HOR reducers with simple non-HOR versions of the
+    # same file when it appears in a value list! We only want to process
+    # the key version of these HOR reducers when they appear in both places.
+    #
+    # NO this doesn't work! the HOR reducer still needs to know the name of the sub-reducers
+    # it reference, even if it won't actually create the files.
+    #
+    # Ok, prepend a name with '-' to mean "This is sub-reducer, just don't create the actual file,
+    # only the refs in the HOR to it"
+    # non_leaf_nodes = remove_matching_elements(non_leaf_nodes)
+    non_leaf_nodes = prepend_matching_elements(non_leaf_nodes)
+
+    for parent_child_names_tuple in non_leaf_nodes:
+        create_hor_reducer(parent_child_names_tuple)
 
 
 @click.command(no_args_is_help=True)
@@ -88,5 +129,60 @@ def start(two_files, sub_dirs, preview_all, make_hor, output_dir, force_overwrit
     run(config)
 
 
+def create_simple_reducer(reducer_name):
+
+    dbg(f"------------------------ create_simple_reducer, red name = {reducer_name}")
+
+    ctx = click.Context(start)
+    ctx.invoke(start,
+               two_files=False,
+               sub_dirs=False,
+               preview_all=False,
+               make_hor=False,
+               output_dir='../XcodeTestProject/XcodeTestProject/TCA-beam-content',
+               force_overwrite=True,
+               dry_run=False,
+               customise_settings=False,
+               version=False,
+               feature_names=[reducer_name]
+       )
+
+
+# # Example usage:
+# data = [('apple', ['banana', 'apple', 'cherry']), ('banana', ['apple', 'banana', 'cherry'])]
+# print(prepend_matching_elements(data))
+#  --> [('apple', ['-banana', '-apple', 'cherry']), ('banana', ['-apple', '-banana', 'cherry'])]
+def prepend_matching_elements(data):
+    keys = [t[0] for t in data]
+    return [(key, [('_' + val) if val in keys else val for val in values]) for key, values in data]
+
+
+def create_hor_reducer(reducer_names):
+
+    dbg(f"------------------------ create_hor_reducer, red names = {reducer_names}")
+
+    # convert (str, [str]) to just a flat [str]
+    reducer_names = [reducer_names[0]] + reducer_names[1]
+
+    dbg(f"create_hor_reducer 2, red names = {reducer_names}")
+
+    dry = False
+
+    ctx = click.Context(start)
+    ctx.invoke(start,
+               two_files=False,
+               sub_dirs=False,
+               preview_all=False,
+               make_hor=True,
+               output_dir='../XcodeTestProject/XcodeTestProject/TCA-beam-content',
+               force_overwrite=True,
+               dry_run=dry,
+               customise_settings=False,
+               version=False,
+               feature_names=reducer_names
+       )
+
+
 if __name__ == '__main__':
-    start()
+    start_test_tree()
+    # start()

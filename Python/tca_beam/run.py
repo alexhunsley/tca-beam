@@ -2,7 +2,7 @@ from .template_rendering import *
 
 
 def process_template(config, feature_name, substitutions, extra_text_for_step_display=""):
-    dbg(f"start process_template, config = {config}, sub_dirs = {config.sub_dirs}")
+    dbg(f"start process_template, config = {config}, sub_dirs = {config.sub_dirs}, subs = {substitutions}")
 
     # Load the template
     view_template = config.jinja_env.get_template('View.swift')
@@ -78,7 +78,7 @@ def make_sub_reducer_substitions(config):
 
     substitutions = {}
 
-    for feature_name in config.feature_names[1:]:
+    for feature_name in [fName.replace('_', '') for fName in config.feature_names[1:]]:
 
         feature_name_as_var = to_camel_case(feature_name)
 
@@ -101,6 +101,9 @@ def run(config):
     sub_reducer_feature_substitutions = make_sub_reducer_substitions(config) if config.make_hor else {}
 
     for index, feature_name in enumerate(config.feature_names):
+
+        if feature_name[0] == '_':
+            continue
 
         substitutions = {
             'viewName': f"{feature_name}View",

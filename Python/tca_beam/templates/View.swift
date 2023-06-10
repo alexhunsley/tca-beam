@@ -17,21 +17,15 @@ public struct {{ viewName }}: View {
     }
 }
 
+{%- if subReducerFeatures|length == 0 %}
+
 // MARK: - Preview
 
 public struct {{ viewName }}_Preview: PreviewProvider {
 
     public static var previews: some View {
         {{ viewName }}(store: StoreOf<{{ featureName }}>(
-{%- if subReducerFeatures|length > 0 -%}
-        initialState: .init(
- {%- for subFeatureKey, subFeatureValue in subReducerFeatures.items() %}
-           {{ subFeatureValue.varName }}: {{ subFeatureValue.featureName }}.State(){{ ", " if not loop.last else "" }}
- {%- endfor %}
-        )) {
-{%- else -%}
-            initialState: .init()) {
-{%- endif %}
+        initialState: .init()) {
             {{ featureName }}()
         }
 //             withDependencies: {
@@ -40,3 +34,4 @@ public struct {{ viewName }}_Preview: PreviewProvider {
         )
     }
 }
+{%- endif %}
