@@ -1,0 +1,40 @@
+Snippet for checking and updating checksum in toml file: (see https://github.com/alexhunsley/tca-beam/issues/7)
+
+import toml
+import hashlib
+import pickle
+
+def update_checksum_if_contents_changed(toml_config_filename):
+    # Load the .toml file into memory
+    data = toml.load(toml_config_filename)
+
+    # Store existing checksum if it exists
+    existing_checksum = None
+    if 'version-do-not-edit-this-section-please' in data:
+        existing_checksum = data['version-do-not-edit-this-section-please'].get('contents_checksum')
+
+    # Remove 'contents_checksum' key if it exists
+    if 'version-do-not-edit-this-section-please' in data:
+        data['version-do-not-edit-this-section-please'].pop('contents_checksum', None)
+
+    # Convert the data dictionary to a byte stream
+    data_bytes = pickle.dumps(data)
+
+    # Calculate the checksum of the byte stream
+    new_checksum = hashlib.md5(data_bytes).hexdigest()
+
+    # If existing checksum does not match the new one, update the file
+    if new_checksum != existing_checksum:
+        # Update 'contents_checksum' with the new checksum
+        if 'version-do-not-edit-this-section-please' not in data:
+            data['version-do-not-edit-this-section-please'] = {}
+        data['version-do-not-edit-this-section-please']['contents_checksum'] = new_checksum
+
+        # Write the updated toml data back to the file
+        with open(toml_config_filename, 'w') as toml_file:
+            toml.dump(data, toml_file)
+
+
+
+(https://chat.openai.com/share/3c9c0a87-7c7c-4674-bb45-6cd4462f80b5)
+
