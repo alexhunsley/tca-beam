@@ -1,3 +1,8 @@
+# Update July 2024
+
+Things move *fast* around TCA and Apple-land! In all likelihood `tca-beam` isn't useful with the current version of TCA.
+I'll be revising `tca-beam` shortly to review the situation.
+
 # TCA-beam 
 
 [![PyPI version](https://img.shields.io/pypi/v/tca-beam)](https://pypi.org/project/tca-beam)
